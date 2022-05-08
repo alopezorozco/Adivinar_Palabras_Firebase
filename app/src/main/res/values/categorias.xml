@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="categorias">
+        <item>Programación</item>
+        <item>Ingeniería de Software</item>
+        <item>Bases de Datos</item>
+        <item>Sistemas Operativos</item>
+        <item>BigData</item>
+        <item>Redes</item>
+    </string-array>
+</resources>

@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Adivinar Palabras</string>
+    <string name="tituloVentanaPrincipal">Escribe tu login y password</string>
+    <string name="str_escribe_tu_email">Escribe tu email</string>
+    <string name="str_escribe_tu_password">Escribe tu password</string>
+    <string name="btn_aceptar">Aceptar</string>
+    <string name="txt_email">alopezorozcofirebase@gmail.com</string>
+    <string name="txt_password">nvhalo</string>
+    <string name="txt_titulo_estadisticas">Bienvenido</string>
+    <string name="porcentaje_inicial">0</string>
+    <string name="btn_adivinar_palabras">Jugar</string>
+    <string name="buscar_palabras">Buscar palabras</string>
+</resources>

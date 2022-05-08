@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "142081755423",
+    "project_id": "adivinar-palabras",
+    "storage_bucket": "adivinar-palabras.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:142081755423:android:831148148be3b0ed82082a",
+        "android_client_info": {
+          "package_name": "com.example.adivinar_palabras_firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "142081755423-n7jhf2jf7vn0gh94icdtnipu6duoli6m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBF0zW_41rLIz5UwdgA-mcgiBPAdJEg77E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "142081755423-n7jhf2jf7vn0gh94icdtnipu6duoli6m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
