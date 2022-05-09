@@ -1,15 +1,22 @@
 package com.example.adivinar_palabras_firebase
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.EditText
-import android.widget.TextView
-import com.google.firebase.auth.FirebaseUser
+import android.widget.Button
+import android.widget.Toast
 import com.google.firebase.database.*
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+
 
 class DetailActivity : AppCompatActivity() {
     lateinit var ref : DatabaseReference
     lateinit var listaPalabras : MutableList<String>
+    lateinit var email : String
+
+    private val sharedPrefFile = "listaDePalabras"
 
 
     //almacena de manera temporal el email del usuario
@@ -21,6 +28,9 @@ class DetailActivity : AppCompatActivity() {
     //almacena la categoria de palabra seleccionada en la aplicación
     lateinit var categoria : String
 
+    lateinit var palabrasArrayList : ArrayList<String>
+
+    lateinit var list : List<String>
 
     companion object{
         const val CATEGORIA = "categoria"
@@ -32,47 +42,29 @@ class DetailActivity : AppCompatActivity() {
 
         categoria = intent?.extras?.getString(CATEGORIA).toString().uppercase()
 
-        GlobalVariables.listaDePalabrasDB = mutableListOf()
         listaPalabras = mutableListOf()
 
-        //buscarPalabras que coincidan con la categoría y que no
-        //hubieran sido ya solucionadas por el usuario las que encuentre serán
-        //para llenar la lista
-        actualizarListaDePalabras()
+        email = GlobalVariables.email
 
-
-
-        var numeroDePalabras : Int = GlobalVariables.listaDePalabrasDB.size
-    }
-
-    /**}
-     * Actualiza la información en el view del número de palabras
-     */
-    private fun actualizarNumeroDePalabras() {
-        val numPalabrasEditText : TextView = findViewById(R.id.word_count)
-
-        numPalabrasEditText.setText("1 de " + listaPalabras.size)
-    }
-
-    /**
-     * Busca las palabras según la categoría seleccionada
-      */
-    private fun actualizarListaDePalabras()  {
         ref = FirebaseDatabase.getInstance().getReference("diccionario")
+
+        palabrasArrayList = ArrayList<String>(1)
+
+        val numeroDeElementos = palabrasArrayList.size
+
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
+
+
 
         /**
          * video guía https://www.youtube.com/watch?v=GWaN3iHfnro
          */
         ref.addValueEventListener(object : ValueEventListener{
-
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot!!.exists()){
                     listaPalabras.clear()
-                    GlobalVariables.listaDePalabrasDB.clear()
 
                     //email del usuario logueaddo
-                    //var email = "alopezorozcofirebase@gmail.com"
-                    var email = GlobalVariables.email
 
 
                     //se recorre toda la base de datos para buscar las palabras por categoria y que no
@@ -87,19 +79,60 @@ class DetailActivity : AppCompatActivity() {
                         if (!emailDB.contains(email)&&categoriaDB.equals(categoria))
                         {
                             listaPalabras.add(plb.child("palabra").getValue().toString())
-                            GlobalVariables.listaDePalabrasDB.add(plb.child("palabra").getValue().toString())
+                            palabrasArrayList.add(plb.child("palabra").getValue().toString())
                         }
-                    }
-
-                    //GlobalVariables.listaDePalabrasDB = listaPalabras.toCollection(mutableListOf())
-                }
-            }
+                    }//fin del for
+                }//fin del if
+                savePalabrasArrayList(palabrasArrayList, sharedPreferences)
+            }//fin del método onDataChange
 
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
         })
-    }//fin del método buscarPalabras
+
+        val submitBoton : Button = findViewById(R.id.submit)
+
+        submitBoton.setOnClickListener { obtenerPalabra(sharedPreferences) }
+
+    }//fin del método oncreate
+
+    /**
+     * Obtiene la primer palabra de la lista
+     */
+    private fun obtenerPalabra(sharedPreferences: SharedPreferences) {
+        val string = sharedPreferences.getString("set", "")
+
+        try{
+            list = Gson().fromJson(string,
+                object: TypeToken<List<String>>() {}.type)
+        }catch(e : Exception ){
+            e.printStackTrace()
+        }
+        Toast.makeText(this, list.size.toString(), Toast.LENGTH_SHORT)
+    }
+
+    private fun savePalabrasArrayList(
+        palabrasArrayList: java.util.ArrayList<String>,
+        sharedPreferences: SharedPreferences
+    ) {
+        val gson = Gson().toJson(palabrasArrayList)
+        sharedPreferences.edit().putString("set", Gson().toJson(palabrasArrayList)).apply()
 
 
+        /*val editor:SharedPreferences.Editor = sharedPreferences.edit()
+        for (palabra in palabrasArrayList){
+            editor.putString(palabra, palabra)
+        }
+        editor.apply()
+        editor.commit()*/
+    }
+
+    /*fun getPalabrasArrayList(sharedPreferences: SharedPreferences): String? {
+        val data = sharedPreferences.getString("set", null)
+        if (data == null){
+            return null
+        }
+        return Gson().fromJson(data, String::class.java)
+    }*/
 }
