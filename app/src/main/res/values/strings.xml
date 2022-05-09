@@ -10,4 +10,10 @@
     <string name="porcentaje_inicial">0</string>
     <string name="btn_adivinar_palabras">Jugar</string>
     <string name="buscar_palabras">Buscar palabras</string>
+    <string name="siguiente">Siguiente</string>
+    <string name="btn_enviar">Aceptar</string>
+    <string name="instrucciones">instrucciones</string>
+    <string name="num_palabras">num_palabras</string>
+    <string name="puntuacion">puntuacion</string>
+    <string name="escribe_tu_palabra">escribe_tu_palabra</string>
 </resources>

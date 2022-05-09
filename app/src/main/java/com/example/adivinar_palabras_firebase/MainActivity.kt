@@ -67,8 +67,10 @@ class MainActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT).show()
                     val user = auth.currentUser
 
+                    //creamos un objeto del tipo GlobalVariables
+                    GlobalVariables.email = emailString;
+
                     val intent = Intent(this, EstadisticaActivity::class.java)
-                    intent.putExtra("user", user)
                     startActivity(intent)
 
                     //updateUI(user)
